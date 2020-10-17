@@ -3,16 +3,28 @@ const fs = require('fs-extra')
 const path = require('path')
 const { Observable } = require('rxjs')
 
-const { POST_DIR_ORIGINALS, MOCK_OBSERVER, WP_API_URL } = require('../util')
+const {
+  MOCK_OBSERVER,
+  POST_DIR_ORIGINALS,
+  WP_API_CREDENTIALS,
+  WP_API_URL,
+} = require('../util')
 
-const urlForPage = (url, page) => `${url}/posts?page=${page}`
+const urlForPage = (url, page) => `${url}/posts?page=${page}&context=edit`
 
 const posts = async (url, observer = MOCK_OBSERVER) => {
   await fs.ensureDir(POST_DIR_ORIGINALS)
 
   const postsByPage = async (page = 1) => {
     observer.next(`Getting posts by page (${page})`)
-    const response = await fetch(urlForPage(url, page))
+    const response = await fetch(urlForPage(url, page), {
+      headers: new Headers({
+        Authorization: `Basic ${Buffer.from(WP_API_CREDENTIALS).toString(
+          'base64'
+        )}`,
+      }),
+    })
+
     const { status } = response
     // Save data and move on to the next page
     if (status === 200) {

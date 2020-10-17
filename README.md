@@ -1,4 +1,4 @@
-# WordPress to Contentful
+# Prexit: WordPress to Contentful
 
 Migrate WordPress posts to Contentful using the WP REST API and the Contentful JS SDK.
 
@@ -64,11 +64,15 @@ The `/wp-json/wp/v2/users` should return a paginated list of users, if it does n
 
 ## ⚙️ Config
 
-Values required for all of the variables below, or the test config (first) task will throw.
+Create a `.env` file in project root. Values required for all of the variables below, or the test config (first) task will throw.
 
 ```sh
 # Base URL for API requests
 WP_API_URL="https://website.com/wp-json/wp/v2"
+
+# Basic Auth credentials for WP API
+# Set up using Application Passwords plugin
+WP_API_CREDENTIALS="username:G3NE R4TD P455 W0RD"
 
 # WP returns absolute URLS, we use relative
 REDIRECT_BASE_URL="https://website.com"

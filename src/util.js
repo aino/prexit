@@ -24,6 +24,7 @@ const {
   CONTENTFUL_LOCALE,
   CONTENTFUL_SPACE_ID,
   REDIRECT_BASE_URL,
+  WP_API_CREDENTIALS,
   WP_API_URL,
 } = process.env
 
@@ -64,6 +65,7 @@ module.exports = {
   REDIRECT_BASE_URL,
   USER_DIR_ORIGINALS,
   USER_DIR_TRANSFORMED,
+  WP_API_CREDENTIALS,
   WP_API_URL,
   findByGlob,
   trimUrlToFilename,
