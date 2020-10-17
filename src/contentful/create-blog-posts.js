@@ -1,15 +1,15 @@
-const path = require('path')
 const fs = require('fs-extra')
+const path = require('path')
 const { Observable } = require('rxjs')
 
 const {
-  MOCK_OBSERVER,
-  CONTENTFUL_LOCALE,
-  POST_DIR_TRANSFORMED,
-  POST_DIR_CREATED,
-  USER_DIR_TRANSFORMED,
-  CONTENTFUL_FALLBACK_USER_ID,
   ASSET_DIR_LIST,
+  CONTENTFUL_FALLBACK_USER_ID,
+  CONTENTFUL_LOCALE,
+  MOCK_OBSERVER,
+  POST_DIR_CREATED,
+  POST_DIR_TRANSFORMED,
+  USER_DIR_TRANSFORMED,
   findByGlob,
 } = require('../util')
 

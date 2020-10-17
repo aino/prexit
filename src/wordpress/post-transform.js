@@ -17,11 +17,11 @@ const TURNDOWN_OPTS = {
 const turndownService = new TurndownService(TURNDOWN_OPTS)
 
 const {
+  MOCK_OBSERVER,
   POST_DIR_ORIGINALS,
   POST_DIR_TRANSFORMED,
   REDIRECTS_DIR,
   REDIRECT_BASE_URL,
-  MOCK_OBSERVER,
   findByGlob,
 } = require('../util')
 

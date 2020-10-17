@@ -3,10 +3,10 @@ const path = require('path')
 const { Observable } = require('rxjs')
 
 const {
+  CONTENTFUL_LOCALE,
   MOCK_OBSERVER,
   USER_DIR_ORIGINALS,
   USER_DIR_TRANSFORMED,
-  CONTENTFUL_LOCALE,
   findByGlob,
 } = require('../util')
 

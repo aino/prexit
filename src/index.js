@@ -1,16 +1,16 @@
 const execa = require('execa')
 const Listr = require('listr')
 
-const testConfig = require('./setup/test-config')
 const cleanDist = require('./setup/clean-dist')
-const downloadUsers = require('./wordpress/user-download')
-const downloadPosts = require('./wordpress/post-download')
-const transformPosts = require('./wordpress/post-transform')
 const createAssetList = require('./wordpress/create-asset-list')
-const createClient = require('./contentful/create-client')
-const uploadAssets = require('./contentful/upload-assets')
-const matchAuthorTypes = require('./contentful/match-author-types')
 const createBlogPosts = require('./contentful/create-blog-posts')
+const createClient = require('./contentful/create-client')
+const downloadPosts = require('./wordpress/post-download')
+const downloadUsers = require('./wordpress/user-download')
+const matchAuthorTypes = require('./contentful/match-author-types')
+const testConfig = require('./setup/test-config')
+const transformPosts = require('./wordpress/post-transform')
+const uploadAssets = require('./contentful/upload-assets')
 
 const tasks = new Listr([
   {

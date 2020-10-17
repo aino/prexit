@@ -1,13 +1,13 @@
-const path = require('path')
 const fs = require('fs-extra')
+const path = require('path')
 const { Observable } = require('rxjs')
 
 const {
-  MOCK_OBSERVER,
-  CONTENTFUL_LOCALE,
   ASSET_DIR_LIST,
-  urlToMimeType,
+  CONTENTFUL_LOCALE,
+  MOCK_OBSERVER,
   trimUrlToFilename,
+  urlToMimeType,
 } = require('../util')
 
 // Do not exceed ten, delay is an important factor too

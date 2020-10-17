@@ -5,8 +5,8 @@ const { Observable } = require('rxjs')
 
 const {
   ASSET_DIR_LIST,
-  POST_DIR_TRANSFORMED,
   MOCK_OBSERVER,
+  POST_DIR_TRANSFORMED,
   WP_API_URL,
   findByGlob,
 } = require('../util')

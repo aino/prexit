@@ -1,18 +1,18 @@
 const fetch = require('node-fetch')
 
 const {
-  WP_API_URL,
-  REDIRECT_BASE_URL,
   CONTENTFUL_CMA_TOKEN,
   CONTENTFUL_ENV_NAME,
-  CONTENTFUL_SPACE_ID,
-  CONTENTFUL_LOCALE,
   CONTENTFUL_FALLBACK_USER_ID,
+  CONTENTFUL_LOCALE,
+  CONTENTFUL_SPACE_ID,
+  REDIRECT_BASE_URL,
+  WP_API_URL,
 } = require('../util')
 
-const WP_ERR_MSG = `WordPress unreachable at ${WP_API_URL}, check env config and internet connection`
-const REDIRECT_ERR_MSG = `Redirect base URL looks misconfigured: ${REDIRECT_BASE_URL}`
 const CFUL_ERR_BASE = `No value given for required Contentful config var: `
+const REDIRECT_ERR_MSG = `Redirect base URL looks misconfigured: ${REDIRECT_BASE_URL}`
+const WP_ERR_MSG = `WordPress unreachable at ${WP_API_URL}, check env config and internet connection`
 
 async function config() {
   // Ping WP API
