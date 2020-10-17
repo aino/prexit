@@ -4,7 +4,7 @@ const path = require('path')
 const glob = require('glob')
 
 // when task is ran as singular node process and not as Listr task
-const MOCK_OBSERVER = { next: console.log, complete: console.success }
+const MOCK_OBSERVER = { complete: console.success, next: console.log }
 
 // dirs references in various places
 const BUILD_DIR = path.join(process.cwd(), 'dist')
@@ -32,10 +32,10 @@ const findByGlob = (pattern = '', opts = {}) =>
   })
 
 const MIME_TYPES = {
-  jpg: 'image/jpeg',
-  jpeg: 'image/jpeg',
-  png: 'image/png',
   gif: 'image/gif',
+  jpeg: 'image/jpeg',
+  jpg: 'image/jpeg',
+  png: 'image/png',
 }
 
 const urlToMimeType = (url) => {
@@ -47,23 +47,23 @@ const trimUrlToFilename = (url) => url.split('/').slice(-1).join('')
 
 // exportz
 module.exports = {
-  MOCK_OBSERVER,
+  ASSET_DIR_LIST,
   BUILD_DIR,
+  CONTENTFUL_CMA_TOKEN,
+  CONTENTFUL_ENV_NAME,
+  CONTENTFUL_FALLBACK_USER_ID,
+  CONTENTFUL_LOCALE,
+  CONTENTFUL_SPACE_ID,
+  MOCK_OBSERVER,
+  POST_DIR_CREATED,
   POST_DIR_ORIGINALS,
   POST_DIR_TRANSFORMED,
-  POST_DIR_CREATED,
-  USER_DIR_ORIGINALS,
-  ASSET_DIR_LIST,
   REDIRECTS_DIR,
   REDIRECT_BASE_URL,
-  WP_API_URL,
-  CONTENTFUL_CMA_TOKEN,
-  CONTENTFUL_SPACE_ID,
-  CONTENTFUL_ENV_NAME,
-  CONTENTFUL_LOCALE,
-  CONTENTFUL_FALLBACK_USER_ID,
+  USER_DIR_ORIGINALS,
   USER_DIR_TRANSFORMED,
+  WP_API_URL,
   findByGlob,
-  urlToMimeType,
   trimUrlToFilename,
+  urlToMimeType,
 }

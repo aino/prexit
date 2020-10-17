@@ -19,6 +19,6 @@ const get = async ({ accessToken, spaceId, envName } = {}) => {
 module.exports = () =>
   get({
     accessToken: CONTENTFUL_CMA_TOKEN,
-    spaceId: CONTENTFUL_SPACE_ID,
     envName: CONTENTFUL_ENV_NAME,
+    spaceId: CONTENTFUL_SPACE_ID,
   })

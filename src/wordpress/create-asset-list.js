@@ -24,11 +24,11 @@ const listOfImagesByPost = async (post, url) => {
     if (status === 200) {
       const json = await response.json()
       images.push({
-        mediaNumber,
-        link: json.guid.rendered,
-        title: json.title.rendered || '',
         description: json.alt_text || '',
+        link: json.guid.rendered,
+        mediaNumber,
         postId,
+        title: json.title.rendered || '',
       })
     }
   }

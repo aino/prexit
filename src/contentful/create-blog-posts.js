@@ -86,7 +86,7 @@ const createBlogPosts = (posts, assets, authors, client, observer) => {
           // badness
           .catch((error) => {
             // TODO: retry failed
-            failed.push({ post, error })
+            failed.push({ error, post })
           })
           // either
           .finally(() => {
@@ -114,8 +114,16 @@ const createBlogPosts = (posts, assets, authors, client, observer) => {
 function transform(post, inlineMap, heroMap, authorMap) {
   return {
     fields: {
-      title: {
-        [CONTENTFUL_LOCALE]: post.title,
+      author: {
+        [CONTENTFUL_LOCALE]: {
+          sys: {
+            id: authorMap.has(post.author)
+              ? authorMap.get(post.author)
+              : CONTENTFUL_FALLBACK_USER_ID,
+            linkType: 'Entry',
+            type: 'Link',
+          },
+        },
       },
       body: {
         [CONTENTFUL_LOCALE]: replaceInlineImageUrls(post.body, inlineMap),
@@ -123,31 +131,23 @@ function transform(post, inlineMap, heroMap, authorMap) {
       description: {
         [CONTENTFUL_LOCALE]: post.description,
       },
-      slug: {
-        [CONTENTFUL_LOCALE]: post.slug,
+      heroImage: {
+        [CONTENTFUL_LOCALE]: {
+          sys: {
+            id: heroMap.get(post.featured_media),
+            linkType: 'Asset',
+            type: 'Link',
+          },
+        },
       },
       publishDate: {
         [CONTENTFUL_LOCALE]: post.publishDate,
       },
-      heroImage: {
-        [CONTENTFUL_LOCALE]: {
-          sys: {
-            type: 'Link',
-            linkType: 'Asset',
-            id: heroMap.get(post.featured_media),
-          },
-        },
+      slug: {
+        [CONTENTFUL_LOCALE]: post.slug,
       },
-      author: {
-        [CONTENTFUL_LOCALE]: {
-          sys: {
-            type: 'Link',
-            linkType: 'Entry',
-            id: authorMap.has(post.author)
-              ? authorMap.get(post.author)
-              : CONTENTFUL_FALLBACK_USER_ID,
-          },
-        },
+      title: {
+        [CONTENTFUL_LOCALE]: post.title,
       },
     },
   }

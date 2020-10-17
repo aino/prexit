@@ -93,9 +93,6 @@ const uploadAssets = (client, assets, observer = MOCK_OBSERVER) =>
 function transformForUpload(asset) {
   return {
     fields: {
-      title: {
-        [CONTENTFUL_LOCALE]: asset.title,
-      },
       description: {
         [CONTENTFUL_LOCALE]: asset.description,
       },
@@ -106,20 +103,23 @@ function transformForUpload(asset) {
           upload: encodeURI(asset.link),
         },
       },
+      title: {
+        [CONTENTFUL_LOCALE]: asset.title,
+      },
     },
   }
 }
 
 function transformForSaving(wp, cf) {
   return {
-    wordpress: wp,
     contentful: {
-      id: cf.sys.id,
-      title: cf.fields.title[CONTENTFUL_LOCALE],
       description: cf.fields.description[CONTENTFUL_LOCALE],
-      url: cf.fields.file[CONTENTFUL_LOCALE].url,
+      id: cf.sys.id,
       name: cf.fields.file[CONTENTFUL_LOCALE].fileName,
+      title: cf.fields.title[CONTENTFUL_LOCALE],
+      url: cf.fields.file[CONTENTFUL_LOCALE].url,
     },
+    wordpress: wp,
   }
 }
 

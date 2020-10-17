@@ -14,52 +14,51 @@ const createBlogPosts = require('./contentful/create-blog-posts')
 
 const tasks = new Listr([
   {
-    title: 'Setup & Pre-flight checks',
     task: () => {
       return new Listr([
         {
-          title: 'Check env config',
           task: () => testConfig(),
+          title: 'Check env config',
         },
         {
-          title: 'Clean destination folder',
           task: () => cleanDist(),
+          title: 'Clean destination folder',
         },
       ])
     },
+    title: 'Setup & Pre-flight checks',
   },
   {
-    title: 'WordPress export: Users',
     task: () => {
       return new Listr([
         {
-          title: 'Download raw JSON',
           task: () => downloadUsers(),
+          title: 'Download raw JSON',
         },
       ])
     },
+    title: 'WordPress export: Users',
   },
   {
-    title: 'WordPress export: Posts',
     task: () => {
       return new Listr([
         {
-          title: 'Download raw JSON',
           task: () => downloadPosts(),
+          title: 'Download raw JSON',
         },
         {
-          title: 'Transform into Contentful format',
           task: () => transformPosts(),
+          title: 'Transform into Contentful format',
         },
         {
-          title: 'Create list of assets',
           task: () => createAssetList(),
+          title: 'Create list of assets',
         },
       ])
     },
+    title: 'WordPress export: Posts',
   },
   {
-    title: 'Contentful import',
     task: () => {
       return new Listr([
         // {
@@ -67,19 +66,20 @@ const tasks = new Listr([
         //   task: () => createClient()
         // },
         {
-          title: 'Upload assets',
           task: () => createClient().then(uploadAssets),
+          title: 'Upload assets',
         },
         {
-          title: "Match WP 'User' to Contentful 'Person'",
           task: () => createClient().then(matchAuthorTypes),
+          title: "Match WP 'User' to Contentful 'Person'",
         },
         {
-          title: 'Create Posts',
           task: () => createClient().then(createBlogPosts),
+          title: 'Create Posts',
         },
       ])
     },
+    title: 'Contentful import',
   },
 ])
 

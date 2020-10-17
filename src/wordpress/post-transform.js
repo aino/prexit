@@ -5,14 +5,14 @@ const path = require('path')
 const { Observable } = require('rxjs')
 
 const TURNDOWN_OPTS = {
-  headingStyle: 'atx',
-  hr: '---',
   bulletListMarker: '*',
   codeBlockStyle: 'fenced',
   emDelimiter: '*',
-  strongDelimiter: '__',
-  linkStyle: 'inlined',
+  headingStyle: 'atx',
+  hr: '---',
   linkReferenceStyle: 'full',
+  linkStyle: 'inlined',
+  strongDelimiter: '__',
 }
 const turndownService = new TurndownService(TURNDOWN_OPTS)
 
@@ -31,10 +31,10 @@ const extractImages = (post) => {
   while ((foundImage = regex.exec(post.body))) {
     const alt = foundImage[2] ? foundImage[2].replace(/_/g, ' ') : ''
     post.bodyImages.push({
-      link: foundImage[1],
       description: alt,
-      title: alt,
+      link: foundImage[1],
       postId: post.id,
+      title: alt,
     })
   }
   return post

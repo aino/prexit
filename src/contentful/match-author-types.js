@@ -21,11 +21,11 @@ async function findUserInContentful(wpUser, cfUsers) {
     .find(({ name = '' }) => sanitizeName(wpUser.name) === sanitizeName(name))
 
   return {
+    contentful: found || null,
     wordpress: {
       id: wpUser.id,
       name: wpUser.name,
     },
-    contentful: found || null,
   }
 }
 
