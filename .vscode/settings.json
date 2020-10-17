@@ -1,0 +1,28 @@
+{
+  // Don’t use built-in formatter, use ESLint and stylelint
+  // https://github.com/Microsoft/vscode-eslint
+  // https://github.com/stylelint/vscode-stylelint
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "files.autoSave": "off",
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true,
+  },
+  "eslint.format.enable": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  },
+  "[json]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  },
+  "files.exclude": {
+    "**/node_modules": true,
+  },
+}

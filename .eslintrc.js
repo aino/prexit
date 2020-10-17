@@ -4,10 +4,7 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
   ],
-  plugins: [
-    'import',
-    'prettier',
-  ],
+  plugins: ['import', 'prettier'],
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
