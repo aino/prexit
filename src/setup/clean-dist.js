@@ -1,6 +1,7 @@
-const fs = require("fs-extra");
-const { BUILD_DIR } = require("../util");
+const fs = require('fs-extra')
 
-const clean = async () => fs.emptyDir(BUILD_DIR);
+const { BUILD_DIR } = require('../util')
 
-module.exports = clean;
+const clean = async () => fs.emptyDir(BUILD_DIR)
+
+module.exports = clean
