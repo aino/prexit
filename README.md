@@ -7,15 +7,11 @@ Migrate WordPress posts to Contentful using the WP REST API and the Contentful J
 - **Authors**: Script looks for CF Person names that match WP User and reassign author attribution.
 - **Date Published**: Preserved
 
----
-
 ## 🚀 Usage
 
 1. Prerequisites
 1. `yarn install`
 1. `yarn start`
-
----
 
 ## ⚠️ Prerequisites
 
@@ -60,18 +56,20 @@ The `/wp-json/wp/v2/users` should return a paginated list of users, if it does n
 }
 ```
 
----
-
 ## ⚙️ Config
 
-Create a `.env` file in project root. Values required for all of the variables below, or the test config (first) task will throw.
+Create a `.env` file in project root. Values required for most of the variables below, or the test config (first) task will throw.
 
-```sh
+```bash
 # Base URL for API requests
 WP_API_URL="https://website.com/wp-json/wp/v2"
 
-# Basic Auth credentials for WP API
+# Optional: Basic Auth credentials for WP API
 # Set up using Application Passwords plugin
+# This is needed to fetch raw posts which might be
+# necessary if you have plugins running in production
+# which alter posts in ways you don’t want to bring
+# into Contenful.
 WP_API_CREDENTIALS="username:G3NE R4TD P455 W0RD"
 
 # WP returns absolute URLS, we use relative
@@ -95,19 +93,13 @@ CONTENTFUL_LOCALE="[locale]"
 CONTENTFUL_FALLBACK_USER_ID="[id]"
 ```
 
----
-
 ## 🙏 Cite
 
 Lots of inspiration from [this article](https://hoverbaum.net/2018/03/22/wordpress-to-contentful-migration/) and linked gists, it inspired the general approach and some of the of code is used directly.
 
 ---
 
-## ☑️ Goals
+## ☑️ Todo
 
-- [ ] Replace Listr with Ink static & dynamic logging
-- [ ] Optional, incremental steps
-- [ ] Multi-phase approach
-  1. Migrate content to sandbox env
-  1. Export structure/content using CF Migration CLI
-  1. Use CF tooling to migrate content into master
+- [ ] Add `dev` subcommand to run a limited set of tasks
+- [ ] Add `init` subcommand to set up Contentful content models
