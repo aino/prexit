@@ -48,6 +48,8 @@ const extractGalleries = (post) => {
       if (params) {
         data.push(params)
       }
+      // Replace shortcode with placeholder for later reconstruction
+      // of post layout.
       return '<!-- gallery -->' // This doesn’t really work, investigate
     },
   })

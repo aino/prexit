@@ -103,5 +103,8 @@ Lots of inspiration from [this article](https://hoverbaum.net/2018/03/22/wordpre
 
 - [x] Add `dev` subcommand to run a limited set of tasks
 - [ ] Add `init` subcommand to set up Contentful content models
+- [ ] Generalize shortcode parsing
+- [ ] Fix placeholder code for shortcodes
 - [ ] Migrate categories
 - [ ] Migrate tags
+- [ ] Poka-yoke: Ask before updating Contentful
