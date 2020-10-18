@@ -4,6 +4,16 @@ const html2plaintext = require('html2plaintext')
 const path = require('path')
 const { Observable } = require('rxjs')
 
+const shortcode = require('./shortcode-parser')
+const {
+  MOCK_OBSERVER,
+  POST_DIR_ORIGINALS,
+  POST_DIR_TRANSFORMED,
+  REDIRECTS_DIR,
+  REDIRECT_BASE_URL,
+  findByGlob,
+} = require('../util')
+
 const TURNDOWN_OPTS = {
   bulletListMarker: '*',
   codeBlockStyle: 'fenced',
@@ -15,15 +25,6 @@ const TURNDOWN_OPTS = {
   strongDelimiter: '__',
 }
 const turndownService = new TurndownService(TURNDOWN_OPTS)
-
-const {
-  MOCK_OBSERVER,
-  POST_DIR_ORIGINALS,
-  POST_DIR_TRANSFORMED,
-  REDIRECTS_DIR,
-  REDIRECT_BASE_URL,
-  findByGlob,
-} = require('../util')
 
 const extractImages = (post) => {
   const regex = /<img.*?src="(.*?)"[\s\S]*?alt="(.*?)"/g
@@ -37,6 +38,34 @@ const extractImages = (post) => {
       title: alt,
     })
   }
+  return post
+}
+
+const extractGalleries = (post) => {
+  post.galleries = []
+  const parsedBody = shortcode.parse(post.body, post.galleries, {
+    gallery: (str, params, data) => {
+      if (params) {
+        data.push(params)
+      }
+      return '<!-- gallery -->' // This doesn’t really work, investigate
+    },
+  })
+  post.body = parsedBody
+  return post
+}
+
+const extractIframes = (post) => {
+  post.iframes = []
+  const parsedBody = shortcode.parse(post.body, post.iframes, {
+    iframe: (str, params, data) => {
+      if (params) {
+        data.push(params)
+      }
+      return '<!-- iframe -->' // This doesn’t really work, investigate
+    },
+  })
+  post.body = parsedBody
   return post
 }
 
@@ -74,7 +103,10 @@ const transform = (post) => {
   post.slug = post.slug
   post.category = post.categories[0]
   delete post.categories
-  return [post.slug, convertToMarkdown(extractImages(post))]
+  return [
+    post.slug,
+    convertToMarkdown(extractImages(extractGalleries(extractIframes(post)))),
+  ]
 }
 
 const writePost = (name, data) =>
