@@ -5,36 +5,23 @@ const { Observable } = require('rxjs')
 
 const {
   MOCK_OBSERVER,
-  POST_DIR_ORIGINALS,
-  WP_API_CREDENTIALS,
+  TAXONOMIES_DIR_ORIGINALS,
   WP_API_URL,
 } = require('../util')
 
-const urlForPage = (url, page) => {
-  let localUrl = `${url}/posts?page=${page}`
-  if (WP_API_CREDENTIALS) {
-    localUrl = `${localUrl}&context=edit`
-  }
-  return localUrl
-}
+const urlForPage = (url, taxonomy, page) => `${url}/${taxonomy}?page=${page}`
 
-const posts = async (url, observer = MOCK_OBSERVER, devMode = false) => {
-  await fs.ensureDir(POST_DIR_ORIGINALS)
+const taxonomies = async (
+  url,
+  observer = MOCK_OBSERVER,
+  devMode = false,
+  taxonomyType
+) => {
+  await fs.ensureDir(TAXONOMIES_DIR_ORIGINALS)
 
-  const postsByPage = async (page = 1) => {
-    observer.next(`Getting posts by page (${page})`)
-    const response = await fetch(
-      urlForPage(url, page),
-      WP_API_CREDENTIALS
-        ? {
-            headers: {
-              Authorization: `Basic ${Buffer.from(WP_API_CREDENTIALS).toString(
-                'base64'
-              )}`,
-            },
-          }
-        : {}
-    )
+  const taxonomiesByPage = async (taxonomy, page = 1) => {
+    observer.next(`Getting ${taxonomy} by page (${page})`)
+    const response = await fetch(urlForPage(url, taxonomy, page))
 
     const { status, headers } = response
 
@@ -53,13 +40,16 @@ const posts = async (url, observer = MOCK_OBSERVER, devMode = false) => {
       }
 
       const json = await response.json()
-      const dest = path.join(POST_DIR_ORIGINALS, `posts-${page}.json`)
+      const dest = path.join(
+        TAXONOMIES_DIR_ORIGINALS,
+        `${taxonomy}-${page}.json`
+      )
       await fs.writeJson(dest, json, { spaces: 2 })
 
       if (page === totalPages) {
         return observer.complete()
       } else {
-        return postsByPage(page + 1)
+        return taxonomiesByPage(taxonomy, page + 1)
       }
     }
 
@@ -67,8 +57,10 @@ const posts = async (url, observer = MOCK_OBSERVER, devMode = false) => {
   }
 
   // Kick of recursive requests
-  postsByPage()
+  taxonomiesByPage(taxonomyType)
 }
 
-module.exports = ({ devMode }) =>
-  new Observable((observer) => posts(WP_API_URL, observer, devMode))
+module.exports = ({ devMode, taxonomy } = {}) =>
+  new Observable((observer) =>
+    taxonomies(WP_API_URL, observer, devMode, taxonomy)
+  )

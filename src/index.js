@@ -5,6 +5,7 @@ const createAssetList = require('./wordpress/create-asset-list')
 const createBlogPosts = require('./contentful/create-blog-posts')
 const createClient = require('./contentful/create-client')
 const downloadPosts = require('./wordpress/post-download')
+const downloadTaxonomies = require('./wordpress/taxonomy-download')
 const downloadUsers = require('./wordpress/user-download')
 const matchAuthorTypes = require('./contentful/match-author-types')
 const testConfig = require('./setup/test-config')
@@ -37,6 +38,21 @@ const tasks = new Listr([
       ])
     },
     title: 'WordPress export: Users',
+  },
+  {
+    task: ({ devMode }) => {
+      return new Listr([
+        {
+          task: () => downloadTaxonomies({ devMode, taxonomy: 'categories' }),
+          title: 'Download raw JSON',
+        },
+        {
+          task: () => downloadTaxonomies({ devMode, taxonomy: 'tags' }),
+          title: 'Download raw JSON',
+        },
+      ])
+    },
+    title: 'WordPress export: Taxonomies',
   },
   {
     task: ({ devMode }) => {

@@ -10,6 +10,8 @@ const MOCK_OBSERVER = { complete: console.success, next: console.log }
 const DATA_DIR = path.join(process.cwd(), 'data')
 
 const ASSET_DIR_LIST = path.join(DATA_DIR, 'list-of-assets')
+const TAXONOMIES_DIR_ORIGINALS = path.join(DATA_DIR, 'taxonomies-original')
+const TAXONOMIES_DIR_TRANSFORMED = path.join(DATA_DIR, 'taxonomies-transformed')
 const POST_DIR_CREATED = path.join(DATA_DIR, 'posts-created')
 const POST_DIR_ORIGINALS = path.join(DATA_DIR, 'posts-original-by-page')
 const POST_DIR_TRANSFORMED = path.join(DATA_DIR, 'posts-transformed')
@@ -51,12 +53,14 @@ const trimUrlToFilename = (url) => url.split('/').slice(-1).join('')
 // exportz
 module.exports = {
   ASSET_DIR_LIST,
-  DATA_DIR,
+  TAXONOMIES_DIR_ORIGINALS,
+  TAXONOMIES_DIR_TRANSFORMED,
   CONTENTFUL_CMA_TOKEN,
   CONTENTFUL_ENV_NAME,
   CONTENTFUL_FALLBACK_USER_ID,
   CONTENTFUL_LOCALE,
   CONTENTFUL_SPACE_ID,
+  DATA_DIR,
   MOCK_OBSERVER,
   POST_DIR_CREATED,
   POST_DIR_ORIGINALS,
