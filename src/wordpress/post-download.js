@@ -18,25 +18,33 @@ const posts = async (url, observer = MOCK_OBSERVER) => {
   const postsByPage = async (page = 1) => {
     observer.next(`Getting posts by page (${page})`)
     const response = await fetch(urlForPage(url, page), {
-      headers: new Headers({
+      headers: {
         Authorization: `Basic ${Buffer.from(WP_API_CREDENTIALS).toString(
           'base64'
         )}`,
-      }),
+      },
     })
 
-    const { status } = response
-    // Save data and move on to the next page
+    const { status, headers } = response
+    let totalPages = headers.get('x-wp-totalpages')
+    if (totalPages) {
+      totalPages = parseInt(totalPages)
+    }
+
+    // Save data and move on to the next page,
+    // or finish if we’ve reached the end.
     if (status === 200) {
       const json = await response.json()
       const dest = path.join(POST_DIR_ORIGINALS, `posts-${page}.json`)
       await fs.writeJson(dest, json)
-      return postsByPage(page + 1)
+
+      if (page === totalPages) {
+        return observer.complete()
+      } else {
+        return postsByPage(page + 1)
+      }
     }
-    // if it was working before, but it isn't anymore
-    // we've reached the end of the paginated list
-    if (status === 400) return observer.complete()
-    // badness
+
     throw new Error(response)
   }
   // kick of recursive requests
