@@ -107,4 +107,4 @@ Lots of inspiration from [this article](https://hoverbaum.net/2018/03/22/wordpre
 - [ ] Fix placeholder code for shortcodes
 - [ ] Migrate categories
 - [ ] Migrate tags
-- [ ] Poka-yoke: Ask before updating Contentful
+- [x] Poka-yoke: Ask before updating Contentful

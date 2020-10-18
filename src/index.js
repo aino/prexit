@@ -1,4 +1,4 @@
-const Listr = require('listr')
+const { Listr } = require('listr2')
 
 const cleanData = require('./setup/clean-data')
 const createAssetList = require('./wordpress/create-asset-list')
@@ -11,6 +11,7 @@ const matchAuthorTypes = require('./contentful/match-author-types')
 const testConfig = require('./setup/test-config')
 const transformPosts = require('./wordpress/post-transform')
 const uploadAssets = require('./contentful/upload-assets')
+const { CONTENTFUL_ENV_NAME } = require('./util')
 
 const tasks = new Listr([
   {
@@ -74,18 +75,33 @@ const tasks = new Listr([
     title: 'WordPress export: Posts',
   },
   {
-    enabled: ({ devMode }) => !devMode,
     task: () => {
       return new Listr([
         {
+          title: 'Awaiting confirmation',
+          task: async (ctx, task) => {
+            const confirmationAnswer = await task.prompt({
+              type: 'input',
+              message:
+                'You are about to update Contentful. Type the name of the Contentful environment to confirm:',
+            })
+            if (confirmationAnswer === CONTENTFUL_ENV_NAME) {
+              ctx.confirmed = true
+            }
+          },
+        },
+        {
+          skip: (ctx) => !ctx.confirmed,
           task: () => createClient().then(uploadAssets),
           title: 'Upload assets',
         },
         {
+          skip: (ctx) => !ctx.confirmed,
           task: () => createClient().then(matchAuthorTypes),
           title: "Match WP 'User' to Contentful 'Person'",
         },
         {
+          skip: (ctx) => !ctx.confirmed,
           task: () => createClient().then(createBlogPosts),
           title: 'Create Posts',
         },
