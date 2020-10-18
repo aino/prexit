@@ -1,7 +1,6 @@
-const execa = require('execa')
 const Listr = require('listr')
 
-const cleanDist = require('./setup/clean-dist')
+const cleanData = require('./setup/clean-data')
 const createAssetList = require('./wordpress/create-asset-list')
 const createBlogPosts = require('./contentful/create-blog-posts')
 const createClient = require('./contentful/create-client')
@@ -21,7 +20,7 @@ const tasks = new Listr([
           title: 'Check env config',
         },
         {
-          task: () => cleanDist(),
+          task: () => cleanData(),
           title: 'Clean destination folder',
         },
       ])

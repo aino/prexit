@@ -7,15 +7,15 @@ const glob = require('glob')
 const MOCK_OBSERVER = { complete: console.success, next: console.log }
 
 // dirs references in various places
-const BUILD_DIR = path.join(process.cwd(), 'dist')
+const DATA_DIR = path.join(process.cwd(), 'data')
 
-const ASSET_DIR_LIST = path.join(BUILD_DIR, 'list-of-assets')
-const POST_DIR_CREATED = path.join(BUILD_DIR, 'posts-created')
-const POST_DIR_ORIGINALS = path.join(BUILD_DIR, 'posts-original-by-page')
-const POST_DIR_TRANSFORMED = path.join(BUILD_DIR, 'posts-transformed')
-const REDIRECTS_DIR = path.join(BUILD_DIR, 'redirects')
-const USER_DIR_ORIGINALS = path.join(BUILD_DIR, 'users-original')
-const USER_DIR_TRANSFORMED = path.join(BUILD_DIR, 'users-transformed')
+const ASSET_DIR_LIST = path.join(DATA_DIR, 'list-of-assets')
+const POST_DIR_CREATED = path.join(DATA_DIR, 'posts-created')
+const POST_DIR_ORIGINALS = path.join(DATA_DIR, 'posts-original-by-page')
+const POST_DIR_TRANSFORMED = path.join(DATA_DIR, 'posts-transformed')
+const REDIRECTS_DIR = path.join(DATA_DIR, 'redirects')
+const USER_DIR_ORIGINALS = path.join(DATA_DIR, 'users-original')
+const USER_DIR_TRANSFORMED = path.join(DATA_DIR, 'users-transformed')
 
 const {
   CONTENTFUL_CMA_TOKEN,
@@ -51,7 +51,7 @@ const trimUrlToFilename = (url) => url.split('/').slice(-1).join('')
 // exportz
 module.exports = {
   ASSET_DIR_LIST,
-  BUILD_DIR,
+  DATA_DIR,
   CONTENTFUL_CMA_TOKEN,
   CONTENTFUL_ENV_NAME,
   CONTENTFUL_FALLBACK_USER_ID,
