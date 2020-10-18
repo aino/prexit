@@ -18,7 +18,7 @@ const urlForPage = (url, page) => {
   return localUrl
 }
 
-const posts = async (url, observer = MOCK_OBSERVER) => {
+const posts = async (url, observer = MOCK_OBSERVER, devMode = false) => {
   await fs.ensureDir(POST_DIR_ORIGINALS)
 
   const postsByPage = async (page = 1) => {
@@ -38,8 +38,14 @@ const posts = async (url, observer = MOCK_OBSERVER) => {
 
     const { status, headers } = response
     let totalPages = headers.get('x-wp-totalpages')
-    if (totalPages) {
+    if (devMode) {
+      // We don’t want to download everything in dev,
+      // one page is enough.
+      totalPages = 1
+    } else if (totalPages) {
       totalPages = parseInt(totalPages)
+    } else {
+      throw new Error('API error: Couldn’t get total page amount.')
     }
 
     // Save data and move on to the next page,
@@ -62,4 +68,5 @@ const posts = async (url, observer = MOCK_OBSERVER) => {
   postsByPage()
 }
 
-module.exports = () => new Observable((observer) => posts(WP_API_URL, observer))
+module.exports = ({ devMode }) =>
+  new Observable((observer) => posts(WP_API_URL, observer, devMode))

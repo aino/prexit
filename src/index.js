@@ -39,10 +39,10 @@ const tasks = new Listr([
     title: 'WordPress export: Users',
   },
   {
-    task: () => {
+    task: ({ devMode }) => {
       return new Listr([
         {
-          task: () => downloadPosts(),
+          task: () => downloadPosts({ devMode }),
           title: 'Download raw JSON',
         },
         {
@@ -58,12 +58,9 @@ const tasks = new Listr([
     title: 'WordPress export: Posts',
   },
   {
+    enabled: ({ devMode }) => !devMode,
     task: () => {
       return new Listr([
-        // {
-        //   title: "Create Content Management API Client",
-        //   task: () => createClient()
-        // },
         {
           task: () => createClient().then(uploadAssets),
           title: 'Upload assets',
@@ -82,4 +79,22 @@ const tasks = new Listr([
   },
 ])
 
-tasks.run().catch((err) => console.error(err))
+const main = (options = {}) => {
+  tasks.run(options).catch((err) => console.error(err))
+}
+
+const init = () => {
+  console.info('Project initialization is not set up yet, sorry')
+  process.exit(1)
+}
+
+const args = process.argv
+const argument = args[args.length - 1]
+
+if (argument === 'init') {
+  init()
+} else if (argument === 'dev') {
+  main({ devMode: true })
+} else {
+  main()
+}
