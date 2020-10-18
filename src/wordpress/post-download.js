@@ -10,20 +10,31 @@ const {
   WP_API_URL,
 } = require('../util')
 
-const urlForPage = (url, page) => `${url}/posts?page=${page}&context=edit`
+const urlForPage = (url, page) => {
+  let localUrl = `${url}/posts?page=${page}`
+  if (WP_API_CREDENTIALS) {
+    localUrl = `${localUrl}&context=edit`
+  }
+  return localUrl
+}
 
 const posts = async (url, observer = MOCK_OBSERVER) => {
   await fs.ensureDir(POST_DIR_ORIGINALS)
 
   const postsByPage = async (page = 1) => {
     observer.next(`Getting posts by page (${page})`)
-    const response = await fetch(urlForPage(url, page), {
-      headers: {
-        Authorization: `Basic ${Buffer.from(WP_API_CREDENTIALS).toString(
-          'base64'
-        )}`,
-      },
-    })
+    const response = await fetch(
+      urlForPage(url, page),
+      WP_API_CREDENTIALS
+        ? {
+            headers: {
+              Authorization: `Basic ${Buffer.from(WP_API_CREDENTIALS).toString(
+                'base64'
+              )}`,
+            },
+          }
+        : {}
+    )
 
     const { status, headers } = response
     let totalPages = headers.get('x-wp-totalpages')
